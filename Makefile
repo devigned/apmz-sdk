@@ -53,7 +53,6 @@ test: ; $(info $(M) running go test…)
 .PHONY: test-cover
 test-cover: install-tools ; $(info $(M) running go test…)
 	$(Q) $(GO) test -tags=noexit -race -covermode atomic -coverprofile=profile.cov ./...
-	$(Q) goveralls -coverprofile=profile.cov -service=github
 
 .PHONY: gox
 gox: install-tools

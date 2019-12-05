@@ -15,6 +15,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Make
-        env:
-          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make ci
+      - name: Convert coverage to lcov
+        uses: jandelgado/gcov2lcov-action@v1.0.0
+        with:
+          infile: profile.cov
+          outfile: coverage.lcov
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1.0.1
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: coverage.lcov
