@@ -84,5 +84,7 @@ func (writer *diagnosticsMessageWriter) Printf(message string, args ...interface
 }
 
 func (writer *diagnosticsMessageWriter) hasListeners() bool {
+	writer.lock.Lock()
+	defer writer.lock.Unlock()
 	return len(writer.listeners) > 0
 }

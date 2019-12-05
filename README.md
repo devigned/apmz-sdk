@@ -1,6 +1,7 @@
 # Microsoft Application Insights SDK for Go
-
-[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-Go.svg?branch=master)](https://travis-ci.org/Microsoft/ApplicationInsights-Go) [![Documentation](https://godoc.org/github.com/microsoft/ApplicationInsights-Go?status.svg)](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights) [![Release](https://img.shields.io/github/release/Microsoft/ApplicationInsights-Go/all.svg)](https://github.com/microsoft/ApplicationInsights-Go/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/devigned/apmz-sdk)](https://goreportcard.com/report/github.com/devigned/apmz-sdk)
+[![Actions Status](https://github.com/devigned/apmz-sdk/workflows/ci/badge.svg)](https://github.com/devigned/apmz-sdk/actions) 
+[![Documentation](https://godoc.org/github.com/devigned/apmz-sdk?status.svg)](https://godoc.org/github.com/devigned/apmz-sdk)
 
 This project provides a Go SDK for Application Insights.
 [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/)
@@ -10,7 +11,9 @@ telemetry of various kinds (event, metric, trace) to the Application
 Insights service where they can be visualized in the Azure Portal.
 
 ## Status
-This SDK is NOT maintained or supported by Microsoft even though we've contributed to it in the past. Note that Azure Monitor only provides support when using our [supported SDKs](https://docs.microsoft.com/en-us/azure/azure-monitor/app/platforms#unsupported-community-sdks), and this SDK does not yet meet that standard.  Known gaps include:
+This SDK is NOT maintained or supported by Microsoft even though we've contributed to it in the past. 
+Note that Azure Monitor only provides support when using our [supported SDKs](https://docs.microsoft.com/en-us/azure/azure-monitor/app/platforms#unsupported-community-sdks), 
+and this SDK does not yet meet that standard.  Known gaps include:
 
 * Operation correlation is not supported, but this can be managed by the
   caller through the interfaces that exist today.
@@ -22,12 +25,10 @@ This SDK is NOT maintained or supported by Microsoft even though we've contribut
   spilling events to disk in case of network interruption.  This SDK has no
   such feature.
 
-We’re constantly assessing opportunities to expand our support for other languages, so follow our [GitHub Announcements](https://github.com/microsoft/ApplicationInsights-Announcements/issues) page to receive the latest SDK news.
-
 ## Requirements
 **Install**
 ```
-go get github.com/microsoft/ApplicationInsights-Go/appinsights
+go get -u github.com/devigned/apmz-sdk
 ```
 **Get an instrumentation key**
 >**Note**: an instrumentation key is required before any data can be sent. Please see the "[Getting an Application Insights Instrumentation Key](https://github.com/microsoft/AppInsights-Home/wiki#getting-an-application-insights-instrumentation-key)" section of the wiki for more information. To try the SDK without an instrumentation key, set the instrumentationKey config value to a non-empty string.
@@ -37,26 +38,26 @@ go get github.com/microsoft/ApplicationInsights-Go/appinsights
 ## Setup
 
 To start tracking telemetry, you'll want to first initialize a
-[telemetry client](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#TelemetryClient).
+[telemetry client](https://godoc.org/github.com/devigned/apmz-sdk/apmz#TelemetryClient).
 
 ```go
-import "github.com/microsoft/ApplicationInsights-Go/appinsights"
+import "github.com/devigned/apmz-sdk/apmz"
 
 func main() {
-	client := appinsights.NewTelemetryClient("<instrumentation key>")
+	client := apmz.NewTelemetryClient("<instrumentation key>")
 }
 ```
 
 If you want more control over the client's behavior, you should initialize a
-new [TelemetryConfiguration](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#TelemetryConfiguration)
+new [TelemetryConfiguration](https://godoc.org/github.com/devigned/apmz-sdk/apmz#TelemetryConfiguration)
 object and use it to create a client:
 
 ```go
 import "time"
-import "github.com/microsoft/ApplicationInsights-Go/appinsights"
+import "github.com/devigned/apmz-sdk/apmz"
 
 func main() {
-	telemetryConfig := appinsights.NewTelemetryConfiguration("<instrumentation key>")
+	telemetryConfig := apmz.NewTelemetryConfiguration("<instrumentation key>")
 	
 	// Configure how many items can be sent in one call to the data collector:
 	telemetryConfig.MaxBatchSize = 8192
@@ -64,7 +65,7 @@ func main() {
 	// Configure the maximum delay before sending queued telemetry:
 	telemetryConfig.MaxBatchInterval = 2 * time.Second
 	
-	client := appinsights.NewTelemetryClientFromConfig(telemetryConfig)
+	client := apmz.NewTelemetryClientFromConfig(telemetryConfig)
 }
 ```
 
@@ -76,7 +77,7 @@ it in your data model.
 
 ## Telemetry submission
 
-The [TelemetryClient](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#TelemetryClient)
+The [TelemetryClient](https://godoc.org/github.com/devigned/apmz-sdk/apmz#TelemetryClient)
 itself has several methods for submitting telemetry:
 
 ```go
@@ -128,7 +129,7 @@ then be submitted through the `TelemetryClient.Track` method, as illustrated
 in the below sections:
 
 ### Trace
-[Trace telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#TraceTelemetry)
+[Trace telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#TraceTelemetry)
 represent printf-like trace statements that can be text searched.  They have
 an associated severity level, values for which are found in the package's
 constants:
@@ -147,7 +148,7 @@ Trace telemetry is fairly simple, but common telemetry properties are also
 available:
 
 ```go
-trace := appinsights.NewTraceTelemetry("message", appinsights.Warning)
+trace := apmz.NewTraceTelemetry("message", appinsights.Warning)
 
 // You can set custom properties on traces
 trace.Properties["module"] = "server"
@@ -160,21 +161,21 @@ client.Track(trace)
 ```
 
 ### Events
-[Event telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#EventTelemetry)
+[Event telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#EventTelemetry)
 represent structured event records.
 
 ```go
-event := appinsights.NewEventTelemetry("button clicked")
+event := apmz.NewEventTelemetry("button clicked")
 event.Properties["property"] = "value"
 client.Track(event)
 ```
 
 ### Single-value metrics
-[Metric telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#MetricTelemetry)
+[Metric telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#MetricTelemetry)
 each represent a single data point.
 
 ```go
-metric := appinsights.NewMetricTelemetry("Queue length", len(q.items))
+metric := apmz.NewMetricTelemetry("Queue length", len(q.items))
 metric.Properties["Queue name"] = q.name
 client.Track(metric)
 ```
@@ -182,11 +183,11 @@ client.Track(metric)
 ### Pre-aggregated metrics
 To reduce the number of metric values that may be sent through telemetry,
 when using a particularly high volume of measurements, metric data can be
-[pre-aggregated by the client](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#AggregateMetricTelemetry)
+[pre-aggregated by the client](https://godoc.org/github.com/devigned/apmz-sdk/apmz#AggregateMetricTelemetry)
 and submitted all at once.
 
 ```go
-aggregate := appinsights.NewAggregateMetricTelemetry("metric name")
+aggregate := apmz.NewAggregateMetricTelemetry("metric name")
 
 var dataPoints []float64
 // ...collect data points...
@@ -215,13 +216,13 @@ client.Track(aggregate)
 ```
 
 ### Requests
-[Request telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#RequestTelemetry)
+[Request telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#RequestTelemetry)
 represent completion of an external request to the application and contains
 a summary of that request execution and results.  This SDK's request
 telemetry is focused on HTTP requests.
 
 ```go
-request := appinsights.NewRequestTelemetry("GET", "https://microsoft.com/", duration, "<response code>")
+request := apmz.NewRequestTelemetry("GET", "https://microsoft.com/", duration, "<response code>")
 
 // Note that the timestamp will be set to time.Now() minus the
 // specified duration.  This can be overridden by either manually
@@ -250,12 +251,12 @@ client.Track(request)
 ```
 
 ### Dependencies
-[Remote dependency telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#RemoteDependencyTelemetry)
+[Remote dependency telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#RemoteDependencyTelemetry)
 represent interactions of the monitored component with a remote
 component/service like SQL or an HTTP endpoint.
 
 ```go
-dependency := appinsights.NewRemoteDependencyTelemetry("Redis cache", "Redis", "<target>", true /* success */)
+dependency := apmz.NewRemoteDependencyTelemetry("Redis cache", "Redis", "<target>", true /* success */)
 
 // The result code is typically an error code or response status code
 dependency.ResultCode = "OK"
@@ -281,7 +282,7 @@ client.Track(dependency)
 ```
 
 ### Exceptions
-[Exception telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#ExceptionTelemetry)
+[Exception telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#ExceptionTelemetry)
 represent handled or unhandled exceptions that occurred during the execution
 of the monitored application.  This SDK is geared towards handling panics or
 unexpected results from important functions:
@@ -289,7 +290,7 @@ unexpected results from important functions:
 To handle a panic:
 
 ```go
-func method(client appinsights.TelemetryClient) {
+func method(client apmz.TelemetryClient) {
 	defer func() {
 		if r := recover(); r != nil {
 			// Track the panic
@@ -308,10 +309,10 @@ func method(client appinsights.TelemetryClient) {
 This can be condensed with a helper function:
 
 ```go
-func method(client appinsights.TelemetryClient) {
+func method(client apmz.TelemetryClient) {
 	// false indicates that we should have this handle the panic, and
 	// not re-throw it.
-	defer appinsights.TrackPanic(client, false)
+	defer apmz.TrackPanic(client, false)
 	
 	// Panics in any code below will be handled by the above.
 	panic("AHHHH!!")
@@ -333,16 +334,16 @@ longer form as in earlier examples -- and not only for panics:
 ```go
 value, err := someMethod(argument)
 if err != nil {
-	exception := appinsights.NewExceptionTelemetry(err)
+	exception := apmz.NewExceptionTelemetry(err)
 	
 	// Set the severity level -- perhaps this isn't a critical
 	// issue, but we'd *really rather* it didn't fail:
-	exception.SeverityLevel = appinsights.Warning
+	exception.SeverityLevel = apmz.Warning
 	
 	// One could tweak the number of stack frames to skip by
 	// reassigning the callstack -- for instance, if you were to
 	// log this exception in a helper method.
-	exception.Frames = appinsights.GetCallstack(3 /* frames to skip */)
+	exception.Frames = apmz.GetCallstack(3 /* frames to skip */)
 	
 	// Properties are available as usual
 	exception.Properties["input"] = argument
@@ -353,12 +354,12 @@ if err != nil {
 ```
 
 ### Availability
-[Availability telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights/#AvailabilityTelemetry)
+[Availability telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#AvailabilityTelemetry)
 represent the result of executing an availability test.  This is useful if
 you are writing availability monitors in Go.
 
 ```go
-availability := appinsights.NewAvailabilityTelemetry("test name", callDuration, true /* success */)
+availability := apmz.NewAvailabilityTelemetry("test name", callDuration, true /* success */)
 
 // The run location indicates where the test was run from
 availability.RunLocation = "Phoenix"
@@ -378,13 +379,13 @@ client.Track(availability)
 ```
 
 ### Page Views
-[Page view telemetry items](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights/#PageViewTelemetry)
+[Page view telemetry items](https://godoc.org/github.com/devigned/apmz-sdk/apmz#PageViewTelemetry)
 represent generic actions on a page like a button click.  These are typically
 generated by the client side rather than the server side, but is available
 here nonetheless.
 
 ```go
-pageview := appinsights.NewPageViewTelemetry("Event name", "http://testuri.org/page")
+pageview := apmz.NewPageViewTelemetry("Event name", "http://testuri.org/page")
 
 // A duration is available here.
 pageview.Duration = time.Minute
@@ -399,10 +400,10 @@ client.Track(pageview)
 Telemetry items all have a `Tags` property that contains information *about*
 the submitted telemetry, such as user, session, and device information.  The
 `Tags` property is an instance of the
-[contracts.ContextTags](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights/contracts/#ContextTags)
+[contracts.ContextTags](https://godoc.org/github.com/devigned/apmz-sdk/apmz/contracts/#ContextTags)
 type, which is a `map[string]string` under the hood, but has helper methods
 to access the most commonly used data.  An instance of
-[TelemetryContext](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights/#TelemetryContext)
+[TelemetryContext](https://godoc.org/github.com/devigned/apmz-sdk/apmz/#TelemetryContext)
 exists on the `TelemetryClient`, and also contains a `Tags` property.  These
 tags are applied to all telemetry sent through the client.  If a context tag
 is found on both the client's `TelemetryContext` and in the telemetry item's
@@ -414,12 +415,12 @@ A few examples for illustration:
 import (
 	"os"
 	
-	"github.com/microsoft/ApplicationInsights-Go/appinsights"
-	"github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+	"github.com/devigned/apmz-sdk/apmz"
+	"github.com/devigned/apmz-sdk/apmz/contracts"
 )
 
 func main() {
-	client := appinsights.NewTelemetryClient("<ikey>")
+	client := apmz.NewTelemetryClient("<ikey>")
 	
 	// Set role instance name globally -- this is usually the
 	// name of the service submitting the telemetry
@@ -430,7 +431,7 @@ func main() {
 	client.Context().Tags.Cloud().SetRoleInstance(os.Hostname())
 	
 	// Make a request to fiddle with the telemetry's context
-	req := appinsights.NewRequestTelemetry("GET", "http://server/path", time.Millisecond, "200")
+	req := apmz.NewRequestTelemetry("GET", "http://server/path", time.Millisecond, "200")
 	
 	// Set the account ID context tag, for this telemetry item
 	// only.  The following are equivalent:
@@ -453,7 +454,7 @@ tags, for instance cluster identifiers or resource groups.
 
 ```go
 func main() {
-	client := appinsights.NewTelemetryClient("<ikey>")
+	client := apmz.NewTelemetryClient("<ikey>")
 	
 	client.Context().CommonProperties["Resource group"] = "My resource group"
 	// ...

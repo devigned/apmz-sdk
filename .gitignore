@@ -34,3 +34,5 @@ _testmain.go
 .vscode
 
 bin
+
+*.cov
