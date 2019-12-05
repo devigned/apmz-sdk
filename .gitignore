@@ -28,3 +28,9 @@ _testmain.go
 
 # Backup filese
 *~
+
+.idea
+
+.vscode
+
+bin
