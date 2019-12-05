@@ -3,7 +3,7 @@ package apmz
 import (
 	"strings"
 
-	"github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+	"github.com/devigned/apmz-sdk/apmz/contracts"
 )
 
 // TelemetryContext encapsulates contextual data common to all telemetry submitted through a

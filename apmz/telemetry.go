@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+	"github.com/devigned/apmz-sdk/apmz/contracts"
 )
 
 // TelemetryData is aommon interface implemented by telemetry data contracts

@@ -3,7 +3,7 @@ package apmz
 import (
 	"time"
 
-	"github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+	"github.com/devigned/apmz-sdk/apmz/contracts"
 )
 
 // TelemetryClient is the Application Insights telemetry client provides interface to track telemetry items.

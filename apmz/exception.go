@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+	"github.com/devigned/apmz-sdk/apmz/contracts"
 )
 
 // ExceptionTelemetry items represent an exception that has occurred during execution of the monitored application.
