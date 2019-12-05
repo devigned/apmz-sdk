@@ -2,6 +2,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/devigned/apmz-sdk)](https://goreportcard.com/report/github.com/devigned/apmz-sdk)
 [![Actions Status](https://github.com/devigned/apmz-sdk/workflows/ci/badge.svg)](https://github.com/devigned/apmz-sdk/actions) 
 [![Documentation](https://godoc.org/github.com/devigned/apmz-sdk?status.svg)](https://godoc.org/github.com/devigned/apmz-sdk)
+[![Coverage Status](https://coveralls.io/repos/github/devigned/apmz-sdk/badge.svg?branch=master)](https://coveralls.io/github/devigned/apmz-sdk?branch=master)
 
 This project provides a Go SDK for Application Insights.
 [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/)
