@@ -3,7 +3,7 @@ package apmz
 import (
 	"time"
 
-	"github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+	"github.com/devigned/apmz-sdk/apmz/contracts"
 )
 
 // TelemetryChannel is responsible for queueing and periodically submitting telemetry items.

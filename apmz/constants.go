@@ -1,20 +1,22 @@
 package apmz
 
-// NOTE: This file was automatically generated.
+import (
+	"github.com/devigned/apmz-sdk/apmz/contracts"
+)
 
-import "github.com/microsoft/ApplicationInsights-Go/appinsights/contracts"
+// NOTE: This file was automatically generated.
 
 // Type of the metric data measurement.
 const (
-	Measurement contracts.DataPointType = contracts.Measurement
-	Aggregation contracts.DataPointType = contracts.Aggregation
+	Measurement = contracts.Measurement
+	Aggregation = contracts.Aggregation
 )
 
 // Defines the level of severity for the event.
 const (
-	Verbose     contracts.SeverityLevel = contracts.Verbose
-	Information contracts.SeverityLevel = contracts.Information
-	Warning     contracts.SeverityLevel = contracts.Warning
-	Error       contracts.SeverityLevel = contracts.Error
-	Critical    contracts.SeverityLevel = contracts.Critical
+	Verbose     = contracts.Verbose
+	Information = contracts.Information
+	Warning     = contracts.Warning
+	Error       = contracts.Error
+	Critical    = contracts.Critical
 )

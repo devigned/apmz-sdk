@@ -463,7 +463,7 @@ func main() {
 ```
 
 ### Shutdown
-The Go SDK submits data asynchronously.  The [InMemoryChannel](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights/#InMemoryChannel)
+The Go SDK submits data asynchronously.  The [InMemoryChannel](https://godoc.org/github.com/devigned/apmz-sdk/apmz/#InMemoryChannel)
 launches its own goroutine used to accept and send telemetry.  If you're not
 careful, this may result in lost telemetry when the service needs to shut
 down.  The channel has a few methods to deal with this case:
@@ -511,7 +511,7 @@ func main() {
 
 We recommend something similar to the above to minimize lost telemetry
 through shutdown.
-[The documentation](https://godoc.org/github.com/microsoft/ApplicationInsights-Go/appinsights#TelemetryChannel)
+[The documentation](https://godoc.org/github.com/devigned/apmz-sdk/apmz#TelemetryChannel)
 explains in more detail what can lead to the cases above.
 
 ### Diagnostics
