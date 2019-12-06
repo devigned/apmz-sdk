@@ -13,6 +13,9 @@ type TelemetryClient interface {
 	// this client.
 	Context() *TelemetryContext
 
+	// SetContext will set the telemetry context for the client
+	SetContext(*TelemetryContext)
+
 	// Gets the instrumentation key assigned to this telemetry client.
 	InstrumentationKey() string
 
@@ -83,6 +86,10 @@ func NewTelemetryClientFromConfig(config *TelemetryConfiguration) TelemetryClien
 // will get written out to every telemetry item tracked by this client.
 func (tc *telemetryClient) Context() *TelemetryContext {
 	return tc.context
+}
+
+func (tc *telemetryClient) SetContext(telemetryContext *TelemetryContext) {
+	tc.context = telemetryContext
 }
 
 // Gets the telemetry channel used to submit data to the backend.

@@ -3,6 +3,6 @@
 package apmz
 
 const (
-	sdkName = "go"
-	version = "0.4.2"
+	sdkName = "apmz-go"
+	version = "0.0.3"
 )
